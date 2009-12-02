@@ -4,18 +4,20 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "mascut"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "okitakunio@gmail.com"
-    gem.homepage = "http://github.com/okitan/mascut"
-    gem.authors = ["okitan"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.name = 'mascut'
+    gem.summary = 'instant commet-like server in order to debug web pages'
+    gem.description = 'instant commet-like server in order to debug web pages'
+    gem.email = 'okitakunio@gmail.com'
+    gem.homepage = 'http://github.com/okitan/mascut'
+    gem.authors = %w[ okitan ]
+
+    gem.add_dependency 'rack', '>=1.0.1'
+    gem.add_development_dependency 'rspec', '>= 1.2.9'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+  puts 'Jeweler (or a dependency) not available. Install it with: gem install jeweler'
 end
 
 require 'spec/rake/spectask'
@@ -36,7 +38,7 @@ task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  version = File.exist?('VERSION') ? File.read('VERSION') : ''
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "mascut #{version}"
