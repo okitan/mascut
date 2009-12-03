@@ -15,7 +15,12 @@ class Mascut < Sinatra::Base
     monitor
   end
 
-  get %r{/(.+)} do |name|
+  get %r{^/(.+\.html)$} do |name|
+    File.exist?(name) ? File.read(name) : halt(404)
+  end
+
+  get %r{^/(.+\.css)$} do |name|
+    content_type :css
     File.exist?(name) ? File.read(name) : halt(404)
   end
 end
