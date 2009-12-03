@@ -20,4 +20,6 @@ app = Rack::Builder.new do
   run Rack::Cascade.new([ Mascut.new, Rack::File.new('.') ])
 end.to_app
 
-Rack::Handler::Mongrel.run app, :Host => '0.0.0.0', :Port => 9203
+Rack::Handler::Mongrel.run app, :Host => '0.0.0.0', :Port => 9203 do
+  puts '*** Mascut has started on http://localhost:9203/ ***'
+end
