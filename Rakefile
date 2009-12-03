@@ -11,7 +11,8 @@ begin
     gem.homepage = 'http://github.com/okitan/mascut'
     gem.authors = %w[ okitan ]
 
-    gem.add_dependency 'rack', '>=1.0.1'
+    gem.add_dependency 'sinatra', '>=0.9.4'
+    
     gem.add_development_dependency 'rspec', '>= 1.2.9'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

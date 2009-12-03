@@ -17,7 +17,7 @@ app = Rack::Builder.new do
   use Rack::ShowExceptions
   use Rack::ShowStatus
   
-  run Rack::Cascade.new([Mascut.new, Rack::File.new('.')])
+  run Rack::Cascade.new([ Mascut.new, Rack::File.new('.') ])
 end.to_app
 
 Rack::Handler::Mongrel.run app, :Host => '0.0.0.0', :Port => 9203

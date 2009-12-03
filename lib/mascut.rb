@@ -16,7 +16,29 @@ class Mascut < Sinatra::Base
   end
 
   get %r{^/(.+\.html)$} do |name|
-    File.exist?(name) ? File.read(name) : halt(404)
+    halt(404) unless File.exist?(name)
+
+    # I don't use nokogiri because it corercts wrong html.
+    File.read(name).sub('</head>', <<-JS)
+  <script src='http://www.google.com/jsapi'></script>
+  <script>
+var comet = function() {
+  $.ajax({
+    type: 'GET',
+    url:  '/mascut',
+    success: function(msg) {
+      msg == 'reload' ? location.reload() : comet();
+    }
+  });
+}
+
+google.load('jquery', '1');
+google.setOnLoadCallback(function() {
+  comet();
+});
+  </script>
+</head>
+    JS
   end
 
   get %r{^/(.+\.css)$} do |name|
