@@ -1,6 +1,23 @@
 = mascut
 
-instant commet-like server in order to debug web pages
+instant comet-like server in order to debug web pages
+
+== Feature
+
+* Auto script insertion to the header of your html which enables comet
+
+== Usage
+
+  Example:
+  |
+  |- working_html.html
+  |- stylesheet.css
+
+Simply execute this command at the top of your working directory
+  % mascut
+
+Accessing <http://localhost:9203/working_html.html> with your browser, you can see it works as comet.
+When you edit your working stuffs, your browser will automatically be reloaded!!
 
 == Copyright
 

@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = 'mascut'
-    gem.summary = 'instant commet-like server in order to debug web pages'
-    gem.description = 'instant commet-like server in order to debug web pages'
+    gem.summary = 'instant comet-like server in order to debug web pages'
+    gem.description = 'instant comet-like server in order to debug web pages'
     gem.email = 'okitakunio@gmail.com'
     gem.homepage = 'http://github.com/okitan/mascut'
     gem.authors = %w[ okitan ]
