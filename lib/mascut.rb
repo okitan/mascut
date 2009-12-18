@@ -1,18 +1,18 @@
 require 'sinatra/base'
 
 class Mascut < Sinatra::Base
-  def monitor
+  get '/mascut' do
+    headers 'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'
+    
     now = Time.now
     files = Dir['**/*']
-    
-    loop do 
-      files.each {|file| return 'reload' if File.exist?(file) and now < File.mtime(file) }
-      sleep 1
+
+    catch :reload do
+      loop do 
+        files.each {|file| throw(:reload, 'reload') if File.exist?(file) and now < File.mtime(file) }
+        sleep 1
+      end
     end
-  end
-  
-  get '/mascut' do
-    monitor
   end
 
   get %r{^/(.+\.html)$} do |name|
@@ -33,9 +33,7 @@ var comet = function() {
 }
 
 google.load('jquery', '1');
-google.setOnLoadCallback(function() {
-  comet();
-});
+google.setOnLoadCallback(comet);
   </script>
 </head>
     JS
