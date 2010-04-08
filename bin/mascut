@@ -9,9 +9,12 @@ end
 begin
   require 'mascut'
 rescue LoadError
-  $: << File.join(File.dirname(__FILE__), %w[ .. lib mascut ]) # for development
+  $: << File.join(File.dirname(__FILE__), %w[ .. lib ]) # for development
   require 'mascut'
 end
+
+Version = Mascut::VERSION
+p opts = Mascut::Option.parse
 
 app = Rack::Builder.new do
   use Rack::CommonLogger, $stdout
@@ -21,6 +24,17 @@ app = Rack::Builder.new do
   run Rack::Cascade.new([ Mascut::Mascut.new, Rack::File.new('.') ])
 end.to_app
 
-Rack::Handler::Mongrel.run app, :Host => '0.0.0.0', :Port => 9203 do
-  puts '*** Mascut has started on http://localhost:9203/ ***'
+begin
+  require opts[:server]
+  server = Rack::Handler.get(opts[:server])
+rescue LoadError, NameError => e
+  begin
+    server = Rack::Handler::Mongrel
+  rescue LoadError => e
+    server = Rack::Handler::WEBrick
+  end
+end
+
+server.run app, opts do
+  puts "*** Mascut has started on http://#{opts[:Host]}:#{opts[:Port]}/ ***"
 end
