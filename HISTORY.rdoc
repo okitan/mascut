@@ -1,3 +1,6 @@
+= 0.0.3 (2010-04-08)
+* add Rack option
+
 = 0.0.2 (2009-12-18)
 * add cache-control
 
