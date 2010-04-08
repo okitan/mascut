@@ -5,19 +5,20 @@ rescue LoadError
   require 'rubygems'
   require 'rack'
 end
+
 begin
   require 'mascut'
 rescue LoadError
-  require File.join(File.dirname(__FILE__), %w[ .. lib mascut ]) # for development
+  $: << File.join(File.dirname(__FILE__), %w[ .. lib mascut ]) # for development
+  require 'mascut'
 end
-  
 
 app = Rack::Builder.new do
   use Rack::CommonLogger, $stdout
   use Rack::ShowExceptions
   use Rack::ShowStatus
   
-  run Rack::Cascade.new([ Mascut.new, Rack::File.new('.') ])
+  run Rack::Cascade.new([ Mascut::Mascut.new, Rack::File.new('.') ])
 end.to_app
 
 Rack::Handler::Mongrel.run app, :Host => '0.0.0.0', :Port => 9203 do
