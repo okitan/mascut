@@ -1,5 +1,6 @@
 = 0.0.4
 * remove sinatra dependency, mascut is now a Rack middleware (use Mascut::Mascut)
+* add command line option
 
 = 0.0.3 (2010-04-08)
 * add Rack option

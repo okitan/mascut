@@ -19,6 +19,9 @@ Simply execute this command at the top of your working directory
 Accessing <http://localhost:9203/working_html.html> with your browser, you can see it works as comet.
 When you edit your working stuffs, your browser will automatically be reloaded!!
 
+For Additional Information, just see helps
+  % mascut --help
+
 == Copyright
 
-Copyright (c) 2009 okitan. See LICENSE for details.
+Copyright (c) 2009-2010 okitan. See LICENSE for details.

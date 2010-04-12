@@ -1,9 +1,10 @@
 module Mascut
   class Mascut
-    def initialize(app, path = '/mascut', files = nil)
+    def initialize(app, path = nil, files = nil, opts = nil)
       @app   = app
-      @path  = path
+      @path  = path  || '/mascut'
       @files = files || Dir['**/*']
+      @opts  = opts  || {}
     end
 
     def call(env)
@@ -29,7 +30,7 @@ module Mascut
       catch :reload do
         loop do 
           @files.each {|file| throw(:reload, 'reload') if File.exist?(file) and now < File.mtime(file) }
-          sleep 1
+          sleep (@opts[:interval] || 1.0)
         end
       end
       
