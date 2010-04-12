@@ -30,7 +30,7 @@ module Mascut
           opts.separator 'Mascut options:(TODO)'
           
           opts.permute!(args)
-          options[:files] = args
+          options[:files] = args.size > 0 ? args : nil
         end
       end
     end

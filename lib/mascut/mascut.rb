@@ -1,18 +1,20 @@
 module Mascut
   class Mascut
-    def initialize(app)
-      @app = app
+    def initialize(app, path = '/mascut', files = nil)
+      @app   = app
+      @path  = path
+      @files = files || Dir['**/*']
     end
 
     def call(env)
-      if env['PATH_INFO'] =~ /^\/mascut$/
+      if env['PATH_INFO'] == @path
         mascut
       else
         status, headers, body = @app.call(env)
         if status == 200 and headers['Content-Type'] =~ /^text\/html/
           body = [ File.read(body.path) ] if body.is_a?(Rack::File)
           body.map! {|html| mascutize(html) }
-          headers['Content-Length'] = body.to_ary.inject(0) { |len, part| len + Rack::Utils.bytesize(part) }.to_s
+          headers['Content-Length'] = body.to_a.inject(0) { |len, part| len + Rack::Utils.bytesize(part) }.to_s
           
           [ status, headers, [mascutize(body.first)] ]
         else
@@ -23,11 +25,10 @@ module Mascut
 
     def mascut
       now = Time.now
-      files = Dir['**/*']
       
       catch :reload do
         loop do 
-          files.each {|file| throw(:reload, 'reload') if File.exist?(file) and now < File.mtime(file) }
+          @files.each {|file| throw(:reload, 'reload') if File.exist?(file) and now < File.mtime(file) }
           sleep 1
         end
       end
@@ -43,7 +44,7 @@ module Mascut
 var comet = function() {
   $.ajax({
     type: 'GET',
-    url:  '/mascut',
+    url:  '#{@path}',
     success: function(msg) {
       msg == 'reload' ? location.reload() : comet();
     }

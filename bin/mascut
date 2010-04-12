@@ -14,7 +14,7 @@ rescue LoadError
 end
 
 Version = Mascut::VERSION
-p opts = Mascut::Option.parse
+opts = Mascut::Option.parse
 
 app = Rack::Builder.new do
   use Rack::CommonLogger, $stdout
@@ -23,7 +23,7 @@ app = Rack::Builder.new do
 
   use Rack::ContentLength
   
-  use Mascut::Mascut
+  use Mascut::Mascut, '/mascuta', opts[:files]
   run Rack::File.new('.')
 end.to_app
 
