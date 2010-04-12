@@ -1,10 +1,27 @@
-require 'sinatra/base'
-
 module Mascut
-  class Mascut < Sinatra::Base
-    get '/mascut' do
-      headers 'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache'
-      
+  class Mascut
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      if env['PATH_INFO'] =~ /^\/mascut$/
+        mascut
+      else
+        status, headers, body = @app.call(env)
+        if status == 200 and headers['Content-Type'] =~ /^text\/html/
+          body = [ File.read(body.path) ] if body.is_a?(Rack::File)
+          body.map! {|html| mascutize(html) }
+          headers['Content-Length'] = body.to_ary.inject(0) { |len, part| len + Rack::Utils.bytesize(part) }.to_s
+          
+          [ status, headers, [mascutize(body.first)] ]
+        else
+          [ status, headers, body ]
+        end
+      end
+    end
+
+    def mascut
       now = Time.now
       files = Dir['**/*']
       
@@ -14,13 +31,13 @@ module Mascut
           sleep 1
         end
       end
-    end
-    
-    get %r{^/(.+\.html)$} do |name|
-      halt(404) unless File.exist?(name)
       
-      # I don't use nokogiri because it corercts wrong html.
-      File.read(name).sub('</head>', <<-JS)
+      [ 200, { 'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache', 'Content-Type' => 'text/plain' },  ['reload'] ]
+    end
+
+    def mascutize(html)
+      # I don't use html parser like nokogiri, because it corrects html to be debugged
+      html.sub('</head>', <<-JS)
   <script src='http://www.google.com/jsapi'></script>
   <script>
 var comet = function() {
@@ -38,11 +55,6 @@ google.setOnLoadCallback(comet);
   </script>
 </head>
       JS
-    end
-    
-    get %r{^/(.+\.css)$} do |name|
-      content_type :css
-      File.exist?(name) ? File.read(name) : halt(404)
     end
   end
 end

@@ -20,8 +20,11 @@ app = Rack::Builder.new do
   use Rack::CommonLogger, $stdout
   use Rack::ShowExceptions
   use Rack::ShowStatus
+
+  use Rack::ContentLength
   
-  run Rack::Cascade.new([ Mascut::Mascut.new, Rack::File.new('.') ])
+  use Mascut::Mascut
+  run Rack::File.new('.')
 end.to_app
 
 begin
