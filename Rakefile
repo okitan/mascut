@@ -4,14 +4,15 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = 'mascut'
-    gem.summary = 'instant comet-like server in order to debug web pages'
+    gem.name        = 'mascut'
+    gem.summary     = 'instant comet-like server in order to debug web pages'
     gem.description = 'instant comet-like server in order to debug web pages'
-    gem.email = 'okitakunio@gmail.com'
-    gem.homepage = 'http://github.com/okitan/mascut'
-    gem.authors = %w[ okitan ]
+    gem.email       = 'okitakunio@gmail.com'
+    gem.homepage    = 'http://github.com/okitan/mascut'
+    gem.authors     = %w[ okitan ]
 
-    gem.add_development_dependency 'rspec', '>= 1.2.9'
+    gem.add_development_dependency 'rr', '>= 0.10.11'
+    gem.add_development_dependency 'rspec', '>= 1.3.0'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

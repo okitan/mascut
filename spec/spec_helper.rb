@@ -1,9 +1,10 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$: << File.join(File.dirname(__FILE__), %w[ .. lib ])
 require 'mascut'
-require 'spec'
-require 'spec/autorun'
+
+require 'rubygems'
+require 'rack'
+require 'rr'
 
 Spec::Runner.configure do |config|
-  
+  config.mock_with :rr
 end

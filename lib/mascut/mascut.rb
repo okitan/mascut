@@ -16,11 +16,9 @@ module Mascut
           body = [ File.read(body.path) ] if body.is_a?(Rack::File)
           body.map! {|html| mascutize(html) }
           headers['Content-Length'] = body.to_a.inject(0) { |len, part| len + Rack::Utils.bytesize(part) }.to_s
-          
-          [ status, headers, [mascutize(body.first)] ]
-        else
-          [ status, headers, body ]
         end
+
+        [ status, headers, body ]
       end
     end
 
