@@ -1,7 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe "Mascut" do
-  it "fails" do
-    fail "hey buddy, you should probably rename this file and start specing for real"
+describe Mascut do
+  it 'should fail' do
+    subject::VERSION.should =~ /^\d+\.\d+\.\d+(\w+)?$/
   end
 end
+
