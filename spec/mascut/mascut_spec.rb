@@ -100,6 +100,25 @@ describe Mascut::Mascut, '#mascut' do
 end
 
 describe Mascut::Mascut, '#mascutize' do
-  it 'should have specs'
+  let(:app) { mock }
+  let(:html) { '<html><head></head><body></body>' }
+  subject { Mascut::Mascut.new(app, nil, nil, opts).mascutize(html) }
+    
+  context 'if use local jquery' do
+    let(:jquery) { 'jquery_file' }
+    let(:opts) { { :jquery => jquery } }
+
+    it "should include local jquery path" do
+      subject.should =~ /#{jquery}/
+    end
+  end
+
+  context 'if use remote jquery' do
+    let(:opts) { {} }
+    
+    it 'should load jquery from google' do
+      subject.should =~ /http:\/\/www\.google\.com\/jsapi/
+    end
+  end
 end
 

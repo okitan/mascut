@@ -37,7 +37,21 @@ module Mascut
 
     def mascutize(html)
       # I don't use html parser like nokogiri, because it corrects html to be debugged
-      html.sub('</head>', <<-JS)
+      html.sub('</head>', @opts[:jquery] ? <<-LOCAL : <<-REMOTE)
+  <script src='#{@opts[:jquery]}'>/script>
+  <script>
+var comet = function() {
+  $.ajax({
+    type: 'GET',
+    url:  '#{@path}',
+    success: function(msg) {
+      msg == 'reload' ? location.reload() : comet();
+    }
+  });
+}
+  </script>
+</head>
+      LOCAL
   <script src='http://www.google.com/jsapi'></script>
   <script>
 var comet = function() {
@@ -54,7 +68,7 @@ google.load('jquery', '1');
 google.setOnLoadCallback(comet);
   </script>
 </head>
-      JS
+      REMOTE
     end
   end
 end
