@@ -7,6 +7,7 @@ describe Mascut::Option, '#parse' do
   context 'String option' do
     [ %w[ -s --server server ],
       %w[ -o --host   Host ],
+      %w[ -j --jquery jquery],
     ].each do |short, long, key|
       context "with short option #{short}" do
         let(:args) { [ short, value ] }

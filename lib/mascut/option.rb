@@ -38,6 +38,10 @@ module Mascut
           opts.on('-i', '--interval SEC', Float, 'interval to monitor files(default on Mascut::Mascut: 1.0 sec)') do |sec|
             options[:interval] = sec
           end
+
+          opts.on('-j', '--jquery JQUERY', 'jquery file to use for commet') do |file|
+            options[:jquery] = file
+          end
           
           opts.permute!(args)
           options[:files] = args.size > 0 ? args : nil
