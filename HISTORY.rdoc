@@ -1,3 +1,7 @@
+= 0.0.5
+* start to write specs (partially)
+* you can use local jquery with -j option
+
 = 0.0.4
 * remove sinatra dependency, mascut is now a Rack middleware (use Mascut::Mascut)
 * add command line option
