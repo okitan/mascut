@@ -24,6 +24,7 @@ app = Rack::Builder.new do
   use Rack::ContentLength
   
   use Mascut::Mascut, opts[:mascut], opts[:files], opts
+  use Mascut::Hamlth
   run Rack::File.new('.')
 end.to_app
 
