@@ -1,3 +1,6 @@
+= 0.0.6
+* auto haml, sass translate support
+
 = 0.0.5
 * start to write specs (partially)
 * you can use local jquery with -j option
