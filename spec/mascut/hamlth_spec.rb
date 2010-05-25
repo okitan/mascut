@@ -6,7 +6,7 @@ shared_examples_for 'hamlize PATH_INFO' do
   end
   
   it 'should hamlize PATH_INFO' do
-    mock(middleware).hamlize(path)
+    mock(middleware).hamlize(path) { 'haml' }
     subject
   end
 end
@@ -17,7 +17,7 @@ shared_examples_for 'sassize PATH_INFO' do
   end
   
   it 'should hamlize PATH_INFO' do
-    mock(middleware).sassize(path)
+    mock(middleware).sassize(path) { 'sass' }
     subject
   end
 end
@@ -43,7 +43,7 @@ describe Mascut::Hamlth, '#call' do
       end
 
       it 'should hamlize *.haml' do
-        mock(middleware).hamlize('hoge.haml')
+        mock(middleware).hamlize('hoge.haml') { 'haml' }
         subject
       end
     end
@@ -94,7 +94,7 @@ describe Mascut::Hamlth, '#call' do
       end
 
       it 'should sassize *.sass' do
-        mock(middleware).sassize('hoge.sass')
+        mock(middleware).sassize('hoge.sass') { 'sass' }
         subject
       end
     end

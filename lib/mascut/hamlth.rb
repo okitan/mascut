@@ -7,9 +7,11 @@ module Mascut
     def call(env)
       case path = env['PATH_INFO'].dup # sub!
       when /\.(html|haml)$/
-        ( File.exist?(path) or File.exist?(path.sub!(/html$/, 'haml')) ) ? hamlize(path) : raise
+        data = ( File.exist?(path) or File.exist?(path.sub!(/html$/, 'haml')) ) ? hamlize(path) : raise
+        [ 200, { 'CONTENT_TYPE' => 'text/html', 'CONTENT_LENGTH' => Rack::Utils.bytesize(data).to_s }, [ data ] ]
       when /\.(css|sass)$/
-        ( File.exist?(path) or File.exist?(path.sub!(/css$/, 'sass')) ) ? sassize(path) : raise
+        data = ( File.exist?(path) or File.exist?(path.sub!(/css$/, 'sass')) ) ? sassize(path) : raise
+        [ 200, { 'CONTENT_TYPE' => 'text/css', 'CONTENT_LENGTH' => Rack::Utils.bytesize(data).to_s  }, [ data ] ]
       else
         raise # all raise jumps to app.call
       end
