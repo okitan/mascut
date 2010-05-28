@@ -14,8 +14,14 @@ module Mascut
         status, headers, body = @app.call(env)
         if status == 200 and headers['Content-Type'] =~ /^text\/html/
           body = [ File.read(body.path) ] if body.is_a?(Rack::File)
-          body.map! {|html| mascutize(html) }
-          headers['Content-Length'] = body.to_a.inject(0) { |len, part| len + Rack::Utils.bytesize(part) }.to_s
+          if body.kind_of?(Rack::Response)
+            # this code is not well considered
+            body.body = mascutize(body.body)
+            headers['Content-Length'] = body.length.to_s
+          else
+            body.map! {|html| mascutize(html) }
+            headers['Content-Length'] = body.to_a.inject(0) {|len, part| len + Rack::Utils.bytesize(part) }.to_s
+          end
         end
 
         [ status, headers, body ]
@@ -28,7 +34,7 @@ module Mascut
       catch :reload do
         loop do 
           @files.each {|file| throw(:reload, 'reload') if File.exist?(file) and now < File.mtime(file) }
-          sleep (@opts[:interval] || 1.0)
+          sleep(@opts[:interval] || 1.0)
         end
       end
       

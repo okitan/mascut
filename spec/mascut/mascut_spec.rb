@@ -62,7 +62,7 @@ describe Mascut::Mascut, '#call' do
       end
 
       it 'should add updated content length' do
-        stub(middleware).mascutize(html) { '12characters' }
+        stub(middleware).mascutize { '12characters' }
         subject[1].should include('Content-Length' => 12.to_s )
       end
 
@@ -70,6 +70,10 @@ describe Mascut::Mascut, '#call' do
         mock(middleware).mascutize(html) { 'mascutized' }
         subject[2].should == [ 'mascutized' ]
       end
+    end
+
+    context 'if app returns a kind of Rack::Response' do
+      it 'should have specs'
     end
     
     [ [ 201, { 'Content-Type' => 'text/html' }, [ 'html' ] ],
