@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
 
   [ [ 'rr',    '~> 1.0' ],
     [ 'rspec', '~> 2.7' ],
+    [ 'rake' ],
   ].each do |gem, version|
     s.add_development_dependency gem, version
   end
