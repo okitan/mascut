@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), %w[ .. spec_helper ])
+require 'spec_helper'
 
 shared_examples_for 'hamlize PATH_INFO' do
   before do

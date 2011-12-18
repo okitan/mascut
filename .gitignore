@@ -17,6 +17,5 @@ tmtags
 coverage
 doc
 pkg
-*.gemspec
 
 ## PROJECT::SPECIFIC
